@@ -1,3 +1,5 @@
+// Author: Christian Wilhelmi
+
 import React from "react";
 
 export default function Keyboard(props) {

@@ -1,3 +1,5 @@
+// Author: Christian Wilhelmi
+
 export const notesOctaveReservoir = [-1, 0, 1, 2]; // noteOctaves determined by c' belonging to octave 1
 export const notesBaseReservoir = ["c", "d", "e", "f", "g", "a", "b"];
 export const notesAccidentalReservoir = ["", "flat", "sharp"];

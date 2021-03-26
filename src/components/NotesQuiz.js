@@ -1,3 +1,5 @@
+// Author: Christian Wilhelmi
+
 import React from "react";
 import NotesScore from "./NotesScore";
 import Keyboard from "./Keyboard";
