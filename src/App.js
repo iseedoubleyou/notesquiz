@@ -1,6 +1,5 @@
 import React from "react";
 import './App.css';
-// import TicToc from "./components/TicToc";
 import NotesQuiz from "./components/NotesQuiz";
 
 

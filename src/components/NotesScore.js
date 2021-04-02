@@ -46,7 +46,7 @@ export default function NotesScore(props) {
             <circle cx="48" cy="55" r="1.5" />
             <circle cx="48" cy="65" r="1.5" />
             <circle cx="25.58" cy="60" r="3.5" />
-            <path fill="black" stroke ="black" strokeWidth="1px" d="M22.6 61 c -2 -26 45 2 -2 22 c 38 -20 .5 -42 2.5 -23" />
+            <path fill="black" stroke ="black" strokeWidth="1px" d="M22.7 61 c -2 -26 45 2 -2 22 c 38 -20 .5 -42 2.5 -23" />
         </g>;    
     
     function noteDrawing () {
