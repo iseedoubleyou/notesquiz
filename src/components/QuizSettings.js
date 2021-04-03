@@ -4,10 +4,10 @@ import React from "react";
 import  { notesOctaveReservoir, notesAccidentalReservoir } from "./NotesCollection";
 
 const octavesDescription = [
-  {rangeNum: -1, rangeDescription: "from C to H (bass)"},
-  {rangeNum: 0, rangeDescription: "from c to h (bass)"},
-  {rangeNum: 1, rangeDescription: "from C' to H' (treble)"},
-  {rangeNum: 2, rangeDescription: "from C'' to H'' (treble)"},
+  {rangeNum: -1, rangeDescription: "Great (from cello C to cello B)"},
+  {rangeNum: 0, rangeDescription: "Small (from viola C to viola B"},
+  {rangeNum: 1, rangeDescription: "One-lined (from middle C to middle B)"},
+  {rangeNum: 2, rangeDescription: "Two-lined (from treble C to treble B)"},
 ];
 
 export default function QuizSettings(props) {
@@ -19,7 +19,7 @@ export default function QuizSettings(props) {
           <td style={{height:'10px', width:'10px'}}>
               <input 
                   type="checkbox"
-                  style={{transform: "scale(0.5)"}}
+                  style={{transform: "scale(0.75)"}}
                   data-category="clef"
                   name={c} 
                   checked={clefs.some(clef => clef === c)}
@@ -35,7 +35,7 @@ export default function QuizSettings(props) {
           <td style={{height:'10px', width:'10px'}}>
               <input 
                   type="checkbox"
-                  style={{transform: "scale(0.5)"}}
+                  style={{transform: "scale(0.75)"}}
                   data-category="octave"
                   name={o}
                   checked={octaves.some(octave => octave === o)}
@@ -51,7 +51,7 @@ export default function QuizSettings(props) {
             <td style={{height:'10px', width:'10px'}}>
                 <input 
                     type="checkbox"
-                    style={{transform: "scale(0.5)"}}
+                    style={{transform: "scale(0.75)"}}
                     data-category="accidental"
                     name={a}
                     checked={accidentals.some(accidental => accidental === a)}
@@ -67,7 +67,7 @@ export default function QuizSettings(props) {
         <div>
             <table style={{textAlign: 'left', paddingTop : '0px', paddingBottom : '0px', fontSize: '6pt', fontWeight: 'normal', verticalAlign: 'middle'}} width = '122px'>
                 <thead>
-                {props.errorMessage? <tr><th colSpan={2} style={{color: 'red'}}>{props.errorMessage}</th></tr> : null}
+                {props.errorMessage? <tr><th colSpan={2} style={{color: 'red', fontWeight: 'normal',}}>{props.errorMessage}</th></tr> : null}
                     <tr>
                         <th colSpan={2}>Clefs</th>
                     </tr>
