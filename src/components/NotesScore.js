@@ -17,10 +17,10 @@ export default function NotesScore(props) {
             d = "M10 50 h140 m0 10 h-140 m0 10 h140 m0 10 h-140 m0 10 h140" />;
     
     const barLineDrawing =
-    <path 
-        stroke = "black" 
-        strokeWidth = "0.5px"
-        d = "M150 50 v 40" />;
+        <path 
+            stroke = "black" 
+            strokeWidth = "0.5px"
+            d = "M150 50 v 40" />;
 
     function ledgerLinesDrawing() {
         let lineHorizontalPosition = props.definedNote.noteAccidental ? 98 : 88;

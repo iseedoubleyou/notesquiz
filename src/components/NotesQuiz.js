@@ -3,7 +3,8 @@
 import React from "react";
 import NotesScore from "./NotesScore";
 import Keyboard from "./Keyboard";
-import notesCollection from "./NotesCollection";
+import QuizSettings from "./QuizSettings";
+import notesCollection, {notesOctaveReservoir, notesAccidentalReservoir} from "./NotesCollection";
 
 /* Backlog:
 // Ergänzung um Intervallübung
@@ -17,24 +18,24 @@ import notesCollection from "./NotesCollection";
 // Fehlerbehandlungen mit aussagekräftigen Fehlermeldungen einfügen
 // Layoutgesstaltung via CSS
 // Backlogübersicht
-// Option zur Notenanzeige (auf Tasten und/oder einfach als Kacheln)
+// Option zur Notennamenanzeige (auf Tasten und/oder einfach als Kacheln)
 */
 
 export default function NotesQuiz() {
 
     const mapKeyNotes = [
-        {keyboardKey: 1, notes: [{noteBase: "b", noteAccidental: "sharp"}, {noteBase: "c", noteAccidental: ""}]},
+        {keyboardKey: 1, notes: [{noteBase: "b", noteAccidental: "sharp"}, {noteBase: "c", noteAccidental: "unsigned"}]},
         {keyboardKey: 2, notes: [{noteBase: "c", noteAccidental: "sharp"}, {noteBase: "d", noteAccidental: "flat"}]},
-        {keyboardKey: 3, notes: [{noteBase: "d", noteAccidental: ""}]},
+        {keyboardKey: 3, notes: [{noteBase: "d", noteAccidental: "unsigned"}]},
         {keyboardKey: 4, notes: [{noteBase: "d", noteAccidental: "sharp"}, {noteBase: "e", noteAccidental: "flat"}]},
-        {keyboardKey: 5, notes: [{noteBase: "e", noteAccidental: ""}, {noteBase: "f", noteAccidental: "flat"}]},
-        {keyboardKey: 6, notes: [{noteBase: "e", noteAccidental: "sharp"}, {noteBase: "f", noteAccidental: ""}]},
+        {keyboardKey: 5, notes: [{noteBase: "e", noteAccidental: "unsigned"}, {noteBase: "f", noteAccidental: "flat"}]},
+        {keyboardKey: 6, notes: [{noteBase: "e", noteAccidental: "sharp"}, {noteBase: "f", noteAccidental: "unsigned"}]},
         {keyboardKey: 7, notes: [{noteBase: "f", noteAccidental: "sharp"}, {noteBase: "g", noteAccidental: "flat"}]},
-        {keyboardKey: 8, notes: [{noteBase: "g", noteAccidental: ""}]},
+        {keyboardKey: 8, notes: [{noteBase: "g", noteAccidental: "unsigned"}]},
         {keyboardKey: 9, notes: [{noteBase: "g", noteAccidental: "sharp"}, {noteBase: "a", noteAccidental: "flat"}]},        
-        {keyboardKey: 10, notes: [{noteBase: "a", noteAccidental: ""}]},
+        {keyboardKey: 10, notes: [{noteBase: "a", noteAccidental: "unsigned"}]},
         {keyboardKey: 11, notes: [{noteBase: "a", noteAccidental: "sharp"}, {noteBase: "b", noteAccidental: "flat"}]},
-        {keyboardKey: 12, notes: [{noteBase: "b", noteAccidental: ""}, {noteBase: "c", noteAccidental: "flat"}]}
+        {keyboardKey: 12, notes: [{noteBase: "b", noteAccidental: "unsigned"}, {noteBase: "c", noteAccidental: "flat"}]}
     ]
 
     let initialNoteState = notesCollection[Math.floor(Math.random() * notesCollection.length)];
@@ -44,8 +45,97 @@ export default function NotesQuiz() {
     const [counter0, setCounter0] = React.useState(0);
     const [counter1, setCounter1] = React.useState(0);
     const [evaluate, setEvaluate] = React.useState(true);
-    const [instructionText, setInstructionText] = React.useState("");
+    const [instructionText, setInstructionText] = React.useState(<br />);
     const [wrongKey, setWrongKey] = React.useState(0);
+    const [showSettings, setShowSettings] = React.useState(false);
+    const [clefsSelected, setClefsSelected] = React.useState(["bass", "violin"]);
+    const [accidentalsSelected, setAccidentalsSelected] = React.useState(notesAccidentalReservoir);
+    const [octavesSelected, setOctavesSelected] = React.useState(notesOctaveReservoir);
+    const [errorMessage, setErrorMessage] = React.useState("");
+
+    function registerSettingsClick() {
+        setShowSettings(!showSettings)
+    }
+        
+    function registerSettingsChange(setting) {
+        setErrorMessage("");
+        switch(setting.target.getAttribute('data-category')) {
+            case "clef" : {
+                if(setting.target.checked) {
+                    let newClefSelection = [].concat(clefsSelected).concat(setting.target.name);
+                    setClefsSelected(newClefSelection);
+                } else {
+                    let newClefSelection = clefsSelected.filter(c => c !==  setting.target.name);
+                    if (checkNotesCollectionCompatibility({clefs: newClefSelection})) {    
+                        setClefsSelected(newClefSelection);
+                        if (!checkCurrentNoteCompatibility({clefs: newClefSelection})) {   
+                            selectNewNote({clefs: newClefSelection});
+                        }                 
+                    } else {
+                        setErrorMessage("Your selection could not be updated. Please ensure that the combination of selected clefs and octaves is reasonable.");
+                    }
+                }
+                break;
+            }
+            case "octave" : {
+                if(setting.target.checked) {
+                    let newOctaveSelection = [].concat(octavesSelected).concat(parseInt(setting.target.name));
+                    setOctavesSelected(newOctaveSelection);
+                } else {
+                    let newOctaveSelection = octavesSelected.filter(o => o != setting.target.name);
+                    if (checkNotesCollectionCompatibility({octaves: newOctaveSelection})) {
+                        setOctavesSelected(newOctaveSelection);
+                        if(!checkCurrentNoteCompatibility({octaves: newOctaveSelection})) {
+                            selectNewNote({octaves: newOctaveSelection});
+                        }
+                    } else {
+                        setErrorMessage("Your selection could not be updated. Please ensure that the combination of selected clefs and octaves is reasonable.");
+                    }
+                }
+                break;
+            }
+            case "accidental" : {
+                if(setting.target.checked) {
+                    let newAccidentalSelection = [].concat(accidentalsSelected).concat(setting.target.name);
+                    setAccidentalsSelected(newAccidentalSelection);
+                } else {
+                    let newAccidentalSelection = accidentalsSelected.filter(a => a !==  setting.target.name);
+                    if (checkNotesCollectionCompatibility({accidentals: newAccidentalSelection})) {
+                        setAccidentalsSelected(newAccidentalSelection);
+                        if(!checkCurrentNoteCompatibility({accidentals: newAccidentalSelection})) {
+                            selectNewNote({accidentals: newAccidentalSelection});
+                        }
+                        
+                    } else {
+                        setErrorMessage("Your selection could not be updated. You must select at least one accidental type.");
+                    }
+                }
+            }      
+        }
+    }
+
+    function checkNotesCollectionCompatibility({clefs = clefsSelected, octaves = octavesSelected, accidentals = accidentalsSelected} = {}) {
+        return (
+            notesCollection.some(n => (
+                clefs.indexOf(n.noteClef) !== -1 && 
+                octaves.indexOf(n.noteOctave) !== -1 && 
+                accidentals.indexOf(n.noteAccidental) !== -1 
+            ))
+        );
+    }
+
+    function checkCurrentNoteCompatibility({clefs = clefsSelected, octaves = octavesSelected, accidentals = accidentalsSelected} = {}) {
+        return([].concat(clefs).some(c => c === noteAndKey[0].noteClef) && [].concat(octaves).some(o => o === noteAndKey[0].noteOctave) && [].concat(accidentals).some(a => a === noteAndKey[0].noteAccidental));
+    }
+
+    function selectNewNote({clefs = clefsSelected, octaves = octavesSelected, accidentals = accidentalsSelected} = {}) {
+        let validNotesCollection = notesCollection.filter(n => [].concat(clefs).some(c => c === n.noteClef) && [].concat(octaves).some(o => o === n.noteOctave) && [].concat(accidentals).some(a => a === n.noteAccidental));
+        let nextNoteState = validNotesCollection[Math.floor(Math.random() * validNotesCollection.length)];
+        let nextKeyState = mapKeyNotes.filter(m => m.notes.some(n => n.noteBase === nextNoteState.noteBase && n.noteAccidental === nextNoteState.noteAccidental))[0].keyboardKey;
+        setNoteAndKey([nextNoteState, nextKeyState]);           
+        setWrongKey(() => 0);
+        setInstructionText(<br />);
+    }
 
     function registerKeyPlay(keyPressed) {  
         if (evaluate) {          
@@ -56,13 +146,9 @@ export default function NotesQuiz() {
                 setCounter0(counter0 + 1);
                 setWrongKey(() => keyPressed.target.id);
             }
-            setInstructionText('For next note press any key');
+            setInstructionText('For next note press any key.');
         } else {
-            let nextNoteState = notesCollection[Math.floor(Math.random() * notesCollection.length)];
-            let nextKeyState = mapKeyNotes.filter(m => m.notes.some(n => n.noteBase === nextNoteState.noteBase && n.noteAccidental === nextNoteState.noteAccidental))[0].keyboardKey;
-            setNoteAndKey([nextNoteState, nextKeyState]);           
-            setWrongKey(() => 0);
-            setInstructionText(' ');
+            selectNewNote();
         }
         setEvaluate(e => !e);
     }
@@ -93,6 +179,27 @@ export default function NotesQuiz() {
                             <td style={{textAlign: 'center', fontSize: '8pt', backgroundColor:'#F2F4F4'}}>{counter1 - counter0}</td>
                         </tr>
                     </tbody>
+                </table>
+            </div>
+            <p />
+            <div align="center" style={{fontSize: '6pt', fontWeight: 'normal'}}>
+                <table width = '140px' style={{fontSize: '6pt', fontWeight:'bold', backgroundColor:'white', paddingLeft:'0pt'}}>
+                    <thead>
+                        <tr onClick={registerSettingsClick} style={{backgroundColor:'#F2F4F4'}}>
+                            <th style={{textAlign: 'center'}} width='5px'>                                
+                                <label>{showSettings ? "– " : "+ "}</label>                                
+                            </th>
+                            <th style={{textAlign: 'left'}}>
+                               <label>Settings</label>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td />
+                            <td>
+                                {showSettings ? <QuizSettings errorMessage={errorMessage} clefs={clefsSelected} octaves={octavesSelected} accidentals={accidentalsSelected} settingsChangeHandler={registerSettingsChange} /> : ""}
+                            </td>
+                        </tr>
+                    </thead>
                 </table>
             </div>
         </>
