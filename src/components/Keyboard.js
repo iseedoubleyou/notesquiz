@@ -33,7 +33,7 @@ export default function Keyboard(props) {
     
     return (
         <div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="160" height="100" version="1">
+            <svg xmlns="http://www.w3.org/2000/svg" maxWidth="100vh" maxHeight="100hH" viewBox="0 0 160 100" version="1">
                 {keyboardJSX}                
             </svg>
         </div>

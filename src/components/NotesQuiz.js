@@ -5,6 +5,8 @@ import NotesScore from "./NotesScore";
 import Keyboard from "./Keyboard";
 import QuizSettings from "./QuizSettings";
 import notesCollection, {notesOctaveReservoir, notesAccidentalReservoir} from "./NotesCollection";
+import {Grid, Typography, useMediaQuery} from "@material-ui/core";
+import {useTheme} from '@material-ui/core/styles';
 
 /* Backlog:
 // Ergänzung um Intervallübung
@@ -49,9 +51,12 @@ export default function NotesQuiz() {
     const [wrongKey, setWrongKey] = React.useState(0);
     const [showSettings, setShowSettings] = React.useState(false);
     const [clefsSelected, setClefsSelected] = React.useState(["bass", "violin"]);
-    const [accidentalsSelected, setAccidentalsSelected] = React.useState(notesAccidentalReservoir);
+    const [accidentalsSelected, setAccidentalsSelected] = React.useState(notesAccidentalReservoir.map(a => a[0]));
     const [octavesSelected, setOctavesSelected] = React.useState(notesOctaveReservoir);
     const [errorMessage, setErrorMessage] = React.useState("");
+
+    const theme = useTheme();
+    const isNarrow = useMediaQuery(theme.breakpoints.down("xs"));
 
     function registerSettingsClick() {
         setShowSettings(!showSettings)
@@ -72,7 +77,7 @@ export default function NotesQuiz() {
                             selectNewNote({clefs: newClefSelection});
                         }                 
                     } else {
-                        setErrorMessage("Your selection could not be updated. Please ensure that the combination of selected clefs and octaves is reasonable.");
+                        setErrorMessage("Die Auswahl konnte nicht angepasst werden. Bitte sicherstellen, dass die Kombination von Notenschlüsseln und Oktavbereichen sinnvoll ist.");
                     }
                 }
                 break;
@@ -89,7 +94,7 @@ export default function NotesQuiz() {
                             selectNewNote({octaves: newOctaveSelection});
                         }
                     } else {
-                        setErrorMessage("Your selection could not be updated. Please ensure that the combination of selected clefs and octaves is reasonable.");
+                        setErrorMessage("Die Auswahl konnte nicht angepasst werden. Bitte sicherstellen, dass die Kombination von Notenschlüsseln und Oktavbereichen sinnvoll ist.");
                     }
                 }
                 break;
@@ -107,7 +112,7 @@ export default function NotesQuiz() {
                         }
                         
                     } else {
-                        setErrorMessage("Your selection could not be updated. You must select at least one accidental type.");
+                        setErrorMessage("Die Auswahl konnte nicht angepasst werden. Bitte mindestens einen Vorzeichentypen auswählen.");
                     }
                 }
             }      
@@ -146,7 +151,7 @@ export default function NotesQuiz() {
                 setCounter0(counter0 + 1);
                 setWrongKey(() => keyPressed.target.id);
             }
-            setInstructionText('For next note press any key.');
+            setInstructionText('Für nächste Note bitte eine Taste drücken');
         } else {
             selectNewNote();
         }
@@ -154,54 +159,125 @@ export default function NotesQuiz() {
     }
 
     return (
-        <>
-            <div align = "center">
-                <NotesScore definedNote={noteAndKey[0]} />
-            </div>
-            <div align = "center">
-                <Keyboard correctKey={evaluate ? 0 : noteAndKey[1]} wrongKey={evaluate ? 0: wrongKey} onClickHandler={registerKeyPlay} />
-                <div style={{fontSize: '6pt', fontWeight: 'normal'}}>{instructionText}</div>
-            </div>
-            <div align = "center">
-                <p></p>
-                <table width = '140px'>
-                    <thead>
-                        <tr>
-                            <th style={{textAlign: 'center', 'fontSize': '8pt'}} width = '47px'>Correct</th>
-                            <th style={{textAlign: 'center', 'fontSize': '8pt'}} width = '47px'>Wrong</th>
-                            <th style={{textAlign: 'center', 'fontSize': '8pt'}} width = '46px'>Score</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style={{textAlign: 'center', fontSize: '8pt', backgroundColor: '#E2F0D9'}}>{counter1}</td>
-                            <td style={{textAlign: 'center', fontSize: '8pt', backgroundColor:'#FFC3C3'}}>{counter0}</td>
-                            <td style={{textAlign: 'center', fontSize: '8pt', backgroundColor:'#F2F4F4'}}>{counter1 - counter0}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <p />
-            <div align="center" style={{fontSize: '6pt', fontWeight: 'normal'}}>
-                <table width = '140px' style={{fontSize: '6pt', fontWeight:'bold', backgroundColor:'white', paddingLeft:'0pt'}}>
-                    <thead>
-                        <tr onClick={registerSettingsClick} style={{backgroundColor:'#F2F4F4'}}>
-                            <th style={{textAlign: 'center'}} width='5px'>                                
-                                <label>{showSettings ? "– " : "+ "}</label>                                
-                            </th>
-                            <th style={{textAlign: 'left'}}>
-                               <label>Settings</label>
-                            </th>
-                        </tr>
-                        <tr>
-                            <td />
-                            <td>
-                                {showSettings ? <QuizSettings errorMessage={errorMessage} clefs={clefsSelected} octaves={octavesSelected} accidentals={accidentalsSelected} settingsChangeHandler={registerSettingsChange} /> : ""}
-                            </td>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-        </>
+    <>
+        <Typography variant="h6">
+            Notenquiz
+        </Typography>
+        <Grid container spacing={3} style={{
+          display: "flex",
+          alignItems:"center"
+        }}>
+            {isNarrow ? (
+                <>
+                    <Grid item xs="12">
+                        <NotesScore definedNote={noteAndKey[0]} />
+                    </Grid>
+                    <Grid item xs="12">
+                        <Keyboard correctKey={evaluate ? 0 : noteAndKey[1]} wrongKey={evaluate ? 0: wrongKey} onClickHandler={registerKeyPlay} />
+                    </Grid>
+                    <Grid item xs="12" align="center">
+                        <Typography variant="body1">
+                            {instructionText}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs="4" align="center">
+                        <Typography variant="body1">
+                            Richtige
+                        </Typography>
+                            <Typography variant="body1" style={{
+                                    backgroundColor: "#E2F0D9"}}>
+                                {counter1}
+                            </Typography>
+                    </Grid>
+                    <Grid item xs="4" align="center">
+                        <Typography variant="body1">
+                            Falsche
+                        </Typography>
+                        <Typography variant="body1" style={{
+                                backgroundColor: "#FFC3C3"}}>
+                            {counter0}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs="4" align="center">
+                        <Typography variant="body1">
+                            Prozent
+                        </Typography>
+                        <Typography variant="body1" style={{
+                                backgroundColor: "#F2F4F4"}}>
+                            {(counter0 || counter1)? Math.floor(counter1 / (counter0 + counter1)) : 'N/A'}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs="12" />
+                    <Grid item xs="12" align="left" onClick={registerSettingsClick} style={{backgroundColor:'#F2F4F4'}}>
+                        <Typography variant="body1">
+                            <label>{showSettings ? "– " : "+ "}</label>
+                            Einstellungen
+                        </Typography>
+                    </Grid>
+                    <Grid item xs="12" align="left">
+                        {showSettings ? <QuizSettings errorMessage={errorMessage} clefs={clefsSelected} octaves={octavesSelected} accidentals={accidentalsSelected} settingsChangeHandler={registerSettingsChange} /> : ""}
+                    </Grid>
+                </>
+            ) : (
+                <>
+                    <Grid item xs="1" />
+                    <Grid item xs="4">
+                        <NotesScore definedNote={noteAndKey[0]} />
+                    </Grid>
+                    <Grid item xs="7" />
+                    <Grid item xs="1" />
+                    <Grid item xs="4">
+                        <Keyboard correctKey={evaluate ? 0 : noteAndKey[1]} wrongKey={evaluate ? 0: wrongKey} onClickHandler={registerKeyPlay} />
+                    </Grid>
+                    <Grid item xs="7" />
+                    <Grid item xs="6" align="center">
+                        <Typography variant="body1">
+                            {instructionText}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs="6" />
+                    <Grid item xs="2" align="center">
+                        <Typography variant="body1">
+                            Richtige
+                        </Typography>
+                            <Typography variant="body1" style={{
+                                    backgroundColor: "#E2F0D9"}}>
+                                {counter1}
+                            </Typography>
+                    </Grid>
+                    <Grid item xs="2" align="center">
+                        <Typography variant="body1">
+                            Falsche
+                        </Typography>
+                        <Typography variant="body1" style={{
+                                backgroundColor: "#FFC3C3"}}>
+                            {counter0}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs="2" align="center">
+                        <Typography variant="body1">
+                            Prozent
+                        </Typography>
+                        <Typography variant="body1" style={{
+                                backgroundColor: "#F2F4F4"}}>
+                            {(counter0 || counter1)? Math.floor(counter1 / (counter0 + counter1)) : 'N/A'}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs="6" />
+                    <Grid item xs="12" />
+                    <Grid item xs="6" align="left" onClick={registerSettingsClick} style={{backgroundColor:'#F2F4F4'}}>
+                        <Typography variant="body1">
+                            <label>{showSettings ? "– " : "+ "}</label>
+                            Einstellungen
+                        </Typography>
+                    </Grid>
+                    <Grid item xs="6" />
+                    <Grid item xs="6" align="left">
+                        {showSettings ? <QuizSettings errorMessage={errorMessage} clefs={clefsSelected} octaves={octavesSelected} accidentals={accidentalsSelected} settingsChangeHandler={registerSettingsChange} /> : ""}
+                    </Grid>
+                </>               
+            )}
+        </Grid>
+    </>
     );
 }

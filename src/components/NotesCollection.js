@@ -2,8 +2,7 @@
 
 export const notesOctaveReservoir = [2, 1, 0, -1]; // noteOctaves determined by c' belonging to octave 1
 export const notesBaseReservoir = ["c", "d", "e", "f", "g", "a", "b"];
-export const notesAccidentalReservoir = ["unsigned", "flat", "sharp"];
-
+export const notesAccidentalReservoir = [["unsigned","ohne Vorzeichen"], ["flat", "Bes"], ["sharp","Kreuze"]];
 const notesCollection = [];
 
 for (let octave of notesOctaveReservoir.filter(o => [1,2].includes(o))) {
@@ -13,7 +12,7 @@ for (let octave of notesOctaveReservoir.filter(o => [1,2].includes(o))) {
                 noteClef: "violin",
                 noteOctave: octave,
                 noteBase: base,
-                noteAccidental: accidental
+                noteAccidental: accidental[0]
             });
         }
     }
@@ -25,7 +24,7 @@ for (let octave of notesOctaveReservoir.filter(o => o === 0)) {
                 noteClef: "violin",
                 noteOctave: octave,
                 noteBase: base,
-                noteAccidental: accidental
+                noteAccidental: accidental[0]
             });
         }
     }
@@ -37,7 +36,7 @@ for (let octave of notesOctaveReservoir.filter(o => [-1,0].includes(o))) {
                 noteClef: "bass",
                 noteOctave: octave,
                 noteBase: base,
-                noteAccidental: accidental
+                noteAccidental: accidental[0]
             });
         }
     }
@@ -49,7 +48,7 @@ for (let octave of notesOctaveReservoir.filter(o => o === 1)) {
                 noteClef: "bass",
                 noteOctave: octave,
                 noteBase: base,
-                noteAccidental: accidental
+                noteAccidental: accidental[0]
             });
         }
     }

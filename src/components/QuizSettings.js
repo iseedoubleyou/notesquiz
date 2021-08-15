@@ -1,101 +1,103 @@
 // Author: Christian Wilhelmi
 
 import React from "react";
-import  { notesOctaveReservoir, notesAccidentalReservoir } from "./NotesCollection";
+import { notesOctaveReservoir, notesAccidentalReservoir } from "./NotesCollection";
+import {Grid, Typography} from "@material-ui/core";
 
 const octavesDescription = [
-  {rangeNum: -1, rangeDescription: "Great (from cello C to cello B)"},
-  {rangeNum: 0, rangeDescription: "Small (from viola C to viola B"},
-  {rangeNum: 1, rangeDescription: "One-lined (from middle C to middle B)"},
-  {rangeNum: 2, rangeDescription: "Two-lined (from treble C to treble B)"},
+  {rangeNum: -1, rangeDescription: ["Great (from cello C to cello B)", "Große Oktave (von C bis H)"]},
+  {rangeNum: 0, rangeDescription: ["Small (from viola C to viola B", "Kleine Oktave (von c bis h"]},
+  {rangeNum: 1, rangeDescription: ["One-lined (from middle C to middle B)","Eingestrichene Oktave (von c' bis h')"]},
+  {rangeNum: 2, rangeDescription: ["Two-lined (from treble C to treble B)","Zweigestrichene Oktave (von c'' bis h'')"]},
 ];
 
 export default function QuizSettings(props) {
     let clefs = [].concat(props.clefs);
     let octaves = [].concat(props.octaves);
     let accidentals = [].concat(props.accidentals);
-    let clefCheckboxes = ["bass","violin"].map(c => 
-      <tr>
-          <td style={{height:'10px', width:'10px'}}>
-              <input 
-                  type="checkbox"
-                  style={{transform: "scale(0.75)"}}
-                  data-category="clef"
-                  name={c} 
-                  checked={clefs.some(clef => clef === c)}
-                  onChange={props.settingsChangeHandler} />
-          </td>
-          <td style={{height:'10px', width:'110px'}}>
-              {c}
-          </td>
-      </tr>
-    );
-    let octaveCheckboxes = notesOctaveReservoir.map(o =>
-      <tr>
-          <td style={{height:'10px', width:'10px'}}>
-              <input 
-                  type="checkbox"
-                  style={{transform: "scale(0.75)"}}
-                  data-category="octave"
-                  name={o}
-                  checked={octaves.some(octave => octave === o)}
-                  onChange={props.settingsChangeHandler} />
-          </td>
-          <td style={{height:'10px', width:'110px'}}>
-              {octavesDescription.filter(d => o === d.rangeNum)[0].rangeDescription}
-          </td>
-      </tr>
-    );
-    let accidentalCheckboxes = notesAccidentalReservoir.map(a =>
-        <tr>
-            <td style={{height:'10px', width:'10px'}}>
+    let clefCheckboxes = [["bass","Bassschlüssel"],["violin","Violinschlüssel"]].map(c => 
+        <>
+
+            <Grid item xs="1">
                 <input 
                     type="checkbox"
-                    style={{transform: "scale(0.75)"}}
-                    data-category="accidental"
-                    name={a}
-                    checked={accidentals.some(accidental => accidental === a)}
+                    data-category="clef"
+                    name={c[0]} 
+                    checked={clefs.some(clef => clef === c[0])}
+                    onChange={props.settingsChangeHandler} />            
+            </Grid>
+            <Grid item xs="11">
+                <Typography variant="body1">
+                    {c[1]}           
+                </Typography>
+            </Grid>
+        </>
+    );
+    let octaveCheckboxes = notesOctaveReservoir.map(o =>
+        <>
+            <Grid item xs="1">
+                <input 
+                    type="checkbox"
+                    data-category="octave"
+                    name={o}
+                    checked={octaves.some(octave => octave === o)}
                     onChange={props.settingsChangeHandler} />
-            </td>
-            <td style={{height:'10px', width:'110px'}}>
-                {a}
-            </td>
-        </tr>
+            </Grid>
+            <Grid item xs="11">
+                <Typography variant="body1">
+                    {octavesDescription.filter(d => o === d.rangeNum)[0].rangeDescription[1]}
+                </Typography>
+            </Grid>
+        </>
+    );
+    let accidentalCheckboxes = notesAccidentalReservoir.map(a =>
+        <>
+            <Grid item xs="1">
+                <input 
+                    type="checkbox"
+                    data-category="accidental"
+                    name={a[0]}
+                    checked={accidentals.some(accidental => accidental === a[0])}
+                    onChange={props.settingsChangeHandler} />
+            </Grid>
+            <Grid item xs="11">
+                <Typography variant="body1">
+                    {a[1]}
+                </Typography>
+            </Grid>
+        </>
     );
 
     return (
-        <div>
-            <table style={{textAlign: 'left', paddingTop : '0px', paddingBottom : '0px', fontSize: '6pt', fontWeight: 'normal', verticalAlign: 'middle'}} width = '122px'>
-                <thead>
-                {props.errorMessage? <tr><th colSpan={2} style={{color: 'red', fontWeight: 'normal',}}>{props.errorMessage}</th></tr> : null}
-                    <tr>
-                        <th colSpan={2}>Clefs</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {clefCheckboxes}
-                </tbody>
-            </table>
-            <table style={{textAlign: 'left', paddingTop : '0px', paddingBottom : '0px', fontSize: '6pt', fontWeight: 'normal', verticalAlign: 'middle'}} width = '122px'>
-                <thead>
-                    <tr>
-                        <th colSpan={2}>Octaves</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {octaveCheckboxes} 
-                </tbody>
-            </table>
-            <table style={{textAlign: 'left', paddingTop : '0px', paddingBottom : '0px', fontSize: '6pt', fontWeight: 'normal', verticalAlign: 'middle'}} width = '122px'>
-                <thead>
-                    <tr>
-                        <th colSpan={2}>Accidentals</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {accidentalCheckboxes}
-                </tbody>
-            </table>
-        </div>
-        );
+        <>
+            <Grid container>
+                <Grid item xs="12">
+                    <Typography variant="body1" color="secondary">
+                        {props.errorMessage? props.errorMessage : null}
+                    </Typography> 
+                </Grid>
+                <Grid item xs="12">
+                    <Typography variant="overline">
+                        Notenschlüssel
+                    </Typography>               
+                </Grid>
+                        {clefCheckboxes}
+        
+                <Grid item xs="12">
+                    <Typography variant="overline">
+                        Oktavbereiche
+                    </Typography>               
+                </Grid>
+                        {octaveCheckboxes}
+           
+                <Grid item xs="12">
+                    <Typography variant="overline">
+                        Vorzeichen
+                    </Typography>               
+                </Grid>
+                        {accidentalCheckboxes}
+            
+            </Grid>
+        </>
+    );
 }
