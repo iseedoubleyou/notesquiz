@@ -5,7 +5,7 @@ import NotesScore from "./NotesScore";
 import Keyboard from "./Keyboard";
 import QuizSettings from "./QuizSettings";
 import notesCollection, {notesOctaveReservoir, notesAccidentalReservoir} from "./NotesCollection";
-import {Grid, Typography, useMediaQuery} from "@material-ui/core";
+import {Grid, Divider, Typography, useMediaQuery} from "@material-ui/core";
 import {useTheme} from '@material-ui/core/styles';
 
 /* Backlog:
@@ -158,17 +158,18 @@ export default function NotesQuiz() {
         setEvaluate(e => !e);
     }
 
-    return (
-    <>
-        <Typography variant="h6">
-            Notenquiz
-        </Typography>
-        <Grid container spacing={3} style={{
-          display: "flex",
-          alignItems:"center"
-        }}>
-            {isNarrow ? (
-                <>
+    return (   
+        <>
+            {isNarrow ? (                
+                <Grid container spacing={1} style={{
+                display: "flex",
+                alignItems:"center"
+                }}>
+                    <Grid item xs="12">
+                        <Typography variant="h6">
+                            Notenquiz
+                        </Typography>
+                    </Grid>
                     <Grid item xs="12">
                         <NotesScore definedNote={noteAndKey[0]} />
                     </Grid>
@@ -217,67 +218,103 @@ export default function NotesQuiz() {
                     <Grid item xs="12" align="left">
                         {showSettings ? <QuizSettings errorMessage={errorMessage} clefs={clefsSelected} octaves={octavesSelected} accidentals={accidentalsSelected} settingsChangeHandler={registerSettingsChange} /> : ""}
                     </Grid>
-                </>
+                </Grid>
             ) : (
-                <>
-                    <Grid item xs="1" />
-                    <Grid item xs="4">
-                        <NotesScore definedNote={noteAndKey[0]} />
+                <Grid container spacing={3} style={{
+                display: "flex",
+                alignItems:"center"
+                }}>
+                    <Grid item xs="3" />
+                    <Grid item xs="6">
+                        <Grid container>
+                            <Grid item xs="2" />
+                            <Grid item xs="8">
+                                <Typography variant="h6">
+                                    Notenquiz
+                                </Typography>
+                            </Grid>
+                            <Grid item xs="2" />
+                            <Grid item xs="2" />
+                            <Grid item xs="8">
+                                <NotesScore definedNote={noteAndKey[0]} />
+                            </Grid>
+                            <Grid item xs="2" />
+                            <Grid item xs="2" />
+                            <Grid item xs="8">
+                                <Keyboard correctKey={evaluate ? 0 : noteAndKey[1]} wrongKey={evaluate ? 0: wrongKey} onClickHandler={registerKeyPlay} />
+                            </Grid>
+                            <Grid item xs="2" />
+                            <Grid item xs="2" />
+                            <Grid item xs="8" align="center">
+                                <Typography variant="body1">
+                                    {instructionText}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs="2" />
+                            <Grid item xs="2" />
+                            <Grid item xs="3" align="center">
+                                <Typography variant="body1">
+                                    Richtige
+                                </Typography>
+                                    <Typography variant="body1" style={{
+                                            backgroundColor: "#E2F0D9"}}>
+                                        {counter1}
+                                    </Typography>
+                            </Grid>
+                            <Grid item xs="3" align="center">
+                                <Typography variant="body1">
+                                    Falsche
+                                </Typography>
+                                <Typography variant="body1" style={{
+                                        backgroundColor: "#FFC3C3"}}>
+                                    {counter0}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs="2" align="center">
+                                <Typography variant="body1">
+                                    Prozent
+                                </Typography>
+                                <Typography variant="body1" style={{
+                                        backgroundColor: "#F2F4F4"}}>
+                                    {(counter0 || counter1)? Math.round(100*counter1 / (counter0 + counter1)) : 'N/A'}
+                                </Typography>
+                                <Divider />
+                            </Grid>
+                            <Grid item xs="2" />
+                        </Grid>
                     </Grid>
-                    <Grid item xs="7" />
-                    <Grid item xs="1" />
-                    <Grid item xs="4">
-                        <Keyboard correctKey={evaluate ? 0 : noteAndKey[1]} wrongKey={evaluate ? 0: wrongKey} onClickHandler={registerKeyPlay} />
+                    <Grid item xs="3" />
+                    <Grid item xs="3" />
+                    <Grid item xs="6">
+                        <Grid container spacing="3">
+                            <Grid item xs="2" />
+                            <Grid item xs="8">
+                                <Divider />
+                            </Grid>
+                            <Grid item xs="2" />
+                        </Grid>
                     </Grid>
-                    <Grid item xs="7" />
-                    <Grid item xs="6" align="center">
-                        <Typography variant="body1">
-                            {instructionText}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs="6" />
-                    <Grid item xs="2" align="center">
-                        <Typography variant="body1">
-                            Richtige
-                        </Typography>
-                            <Typography variant="body1" style={{
-                                    backgroundColor: "#E2F0D9"}}>
-                                {counter1}
-                            </Typography>
-                    </Grid>
-                    <Grid item xs="2" align="center">
-                        <Typography variant="body1">
-                            Falsche
-                        </Typography>
-                        <Typography variant="body1" style={{
-                                backgroundColor: "#FFC3C3"}}>
-                            {counter0}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs="2" align="center">
-                        <Typography variant="body1">
-                            Prozent
-                        </Typography>
-                        <Typography variant="body1" style={{
-                                backgroundColor: "#F2F4F4"}}>
-                            {(counter0 || counter1)? Math.floor(counter1 / (counter0 + counter1)) : 'N/A'}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs="6" />
-                    <Grid item xs="12" />
-                    <Grid item xs="6" align="left" onClick={registerSettingsClick} style={{backgroundColor:'#F2F4F4'}}>
-                        <Typography variant="body1">
-                            <label>{showSettings ? "– " : "+ "}</label>
-                            Einstellungen
-                        </Typography>
-                    </Grid>
-                    <Grid item xs="6" />
-                    <Grid item xs="6" align="left">
-                        {showSettings ? <QuizSettings errorMessage={errorMessage} clefs={clefsSelected} octaves={octavesSelected} accidentals={accidentalsSelected} settingsChangeHandler={registerSettingsChange} /> : ""}
-                    </Grid>
-                </>               
+                    <Grid item xs="3" />
+                    <Grid item xs="3" />
+                    <Grid item xs="6">
+                        <Grid container>
+                            <Grid item xs="2" />
+                            <Grid item xs="8" align="left" onClick={registerSettingsClick} style={{backgroundColor:'#F2F4F4'}}>
+                                <Typography variant="body1">
+                                    <label>{showSettings ? "– " : "+ "}</label>
+                                    Einstellungen
+                                </Typography>
+                            </Grid>
+                            <Grid item xs="2" />
+                            <Grid item xs="2" />
+                            <Grid item xs="8" align="left">
+                                {showSettings ? <QuizSettings errorMessage={errorMessage} clefs={clefsSelected} octaves={octavesSelected} accidentals={accidentalsSelected} settingsChangeHandler={registerSettingsChange} /> : ""}
+                            </Grid>
+                            <Grid item xs="2" />
+                        </Grid>
+                    </Grid>  
+                </Grid> 
             )}
-        </Grid>
-    </>
+        </>
     );
 }

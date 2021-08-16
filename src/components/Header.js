@@ -26,6 +26,7 @@ const Header = props => {
   const open = Boolean(anchorEl);
   const theme = useTheme();
   const isNarrow = useMediaQuery(theme.breakpoints.down("sm"));
+  const isVeryNarrow = useMediaQuery(theme.breakpoints.down("xs"));
 
   const handleMenu = event => {
     setAnchorEl(event.currentTarget);
@@ -69,18 +70,24 @@ const Header = props => {
           <Keyboard />
         </Grid>
         <Grid item xs="8" >
-          <Typography variant="h4" align="center">
-            Klavierschule Volksdorf
-          </Typography>  
+          {isVeryNarrow? (
+            <Typography variant="h6" align="center">
+              Klavierschule Volksdorf
+            </Typography>  
+          ) : (
+            <Typography variant="h4" align="center">
+              Klavierschule Volksdorf
+            </Typography>
+          )}  
         </Grid>
         <Grid item xs="2" align="right">
           <Keyboard />
         </Grid>
       </Grid>
-      <Divider />
-      <Typography variant="subtitle1" align="center" paragraph="ture">
-        Klavierunterricht in Hamburg-Volksdorf für Kinder, Jugendliche und Erwachsene
-      </Typography>
+        <Divider />
+        <Typography variant="subtitle2" align="center" paragraph="true">
+          Klavierunterricht in Hamburg-Volksdorf für Kinder, Jugendliche und Erwachsene
+        </Typography>
       <AppBar position="static" className={classes.appbar}>
         <Toolbar className={classes.toolbar}>
           {isNarrow ? (
