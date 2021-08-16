@@ -158,6 +158,8 @@ export default function NotesQuiz() {
         setEvaluate(e => !e);
     }
 
+    let percentage = (counter0 || counter1)? Math.round(100*counter1 / (counter0 + counter1)) : 'N/A';
+
     return (   
         <>
             {isNarrow ? (                
@@ -205,7 +207,7 @@ export default function NotesQuiz() {
                         </Typography>
                         <Typography variant="body1" style={{
                                 backgroundColor: "#F2F4F4"}}>
-                            {(counter0 || counter1)? Math.floor(counter1 / (counter0 + counter1)) : 'N/A'}
+                            {percentage}
                         </Typography>
                     </Grid>
                     <Grid item xs="12" />
@@ -276,7 +278,7 @@ export default function NotesQuiz() {
                                 </Typography>
                                 <Typography variant="body1" style={{
                                         backgroundColor: "#F2F4F4"}}>
-                                    {(counter0 || counter1)? Math.round(100*counter1 / (counter0 + counter1)) : 'N/A'}
+                                    {percentage}
                                 </Typography>
                                 <Divider />
                             </Grid>
