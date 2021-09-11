@@ -1,11 +1,10 @@
 import React from "react";
 import "./styles.css";
-import Unterricht from "./components/Unterricht";
-import Preise from "./components/Preise";
-import Klavierlehrerin from "./components/Klavierlehrerin";
-import Notenquiz from "./components/NotesQuiz";
-import Unterrichtsort from "./components/Unterrichtsort";
 import Header from "./components/Header";
+import KontaktUndAnfahrt from "./components/KontaktUndAnfahrt";
+import Notenquiz from "./components/NotenQuiz";
+import Portrait from "./components/Portrait";
+import Unterricht from "./components/Unterricht";
 import { Route, Switch } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container } from "@material-ui/core";
@@ -19,12 +18,11 @@ export default function App() {
       <Container maxWidth="lg">
         <Header />
         <Switch>
-          <Route exact from="/Preise" render={props => <Preise {...props} />} />
+          <Route exact path="/Portrait" render={props => <Portrait {...props} />} />
           <Route exact path="/Unterricht" render={props => <Unterricht {...props} />} />
-          <Route exact path="/Unterrichtsort" render={props => <Unterrichtsort {...props} />} />
-          <Route exact path="/Klavierlehrerin" render={props => <Klavierlehrerin {...props} />} />
+          <Route exact path="/KontaktUndAnfahrt" render={props => <KontaktUndAnfahrt {...props} />} />
           <Route exact path="/Notenquiz" render={props => <Notenquiz {...props} />} />
-          <Route exact path="/" render={props => <Unterricht {...props} />} />
+          <Route exact path="/" render={props => <Portrait {...props} />} />
         </Switch>
       </Container>
     </div>

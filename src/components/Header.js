@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from "react-router-dom";
+import {withRouter} from "react-router-dom";
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 import {AppBar, Button, ButtonGroup, Divider, Grid, IconButton, Menu, MenuItem, Toolbar, Typography, useMediaQuery} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -39,20 +39,16 @@ const Header = props => {
 
   const menuItems = [
     {
+      menuTitle: "Portrait",
+      pageURL: "/Portrait"
+    },
+    {
       menuTitle: "Unterricht",
       pageURL: "/Unterricht"
     },
     {
-      menuTitle: "Preise",
-      pageURL: "/Preise"
-    },
-    {
-      menuTitle: "Unterrichtsort",
-      pageURL: "/Unterrichtsort"
-    },
-    {
-      menuTitle: "Klavierlehrerin",
-      pageURL: "/Klavierlehrerin"
+      menuTitle: "Kontakt und Anfahrt",
+      pageURL: "/KontaktUndAnfahrt"
     },
     {
       menuTitle: "Notenquiz",
@@ -62,10 +58,7 @@ const Header = props => {
 
   return (
     <div className={classes.root}>
-      <Grid container style={{
-          display: "flex",
-          alignItems:"center"
-        }}>
+      <Grid container justifyContent="space-between" alignItems="center">
         <Grid item xs="2">
           <Keyboard />
         </Grid>

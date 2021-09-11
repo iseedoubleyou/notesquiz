@@ -1,0 +1,14 @@
+<svg>
+	<path stroke= "grey" strokeWidth="0.5px" fill="white" d="M10 10 v90 h20 v-40 h-10 v-50z" />
+	<path stroke= "grey" strokeWidth="0.5px" fill="black" d="M20 10 v50 h15 v-50z" />
+	<path stroke= "grey" strokeWidth="0.5px" fill="white" d="M35 10 v50 h-5 v40 h20 v-40 h-5 v-50z"/>
+	<path stroke= "grey" strokeWidth="0.5px" fill="black" d="M45 10 v50 h15 v-50z" />
+	<path stroke= "grey" strokeWidth="0.5px" fill="white" d="M60 10 v50 h-10 v40 h20 v-90z" />
+	<path stroke= "grey" strokeWidth="0.5px" fill="white" d="M70 10 v90 h20 v-40 h-10 v-50z" />
+	<path stroke= "grey" strokeWidth="0.5px" fill="black" d="M80 10 v50 h15 v-50z" />
+	<path stroke= "grey" strokeWidth="0.5px" fill="white" d="M95 10 v50 h-5 v40 h20 v-40 h-5 v-50z" />
+	<path stroke= "grey" strokeWidth="0.5px" fill="black" d="M102.5 10 v50 h15 v-50z" />
+	<path stroke= "grey" strokeWidth="0.5px" fill="white" d="M117.5 10 v50 h-7.5 v40 h20 v-40 h-5 v-50z" />
+	<path stroke= "grey" strokeWidth="0.5px" fill="black" d="M125 10 v50 h15 v-50z" />
+	<path stroke= "grey" strokeWidth="0.5px" fill="white" d="M140 10 v50 h-10 v40 h20 v-90z" />
+</svg>
