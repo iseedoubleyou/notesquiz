@@ -66,7 +66,7 @@ const Unterricht = () => {
                         </TableCell>
                         <TableCell width="50%" align="right" style={{padding: "1%"}}>
                             <Typography variant="body1" style={{verticalAlign: "middle"}}>
-                                EUR 78,-
+                                EUR ...,-
                             </Typography>
                         </TableCell>
                     </TableRow>
@@ -78,7 +78,7 @@ const Unterricht = () => {
                         </TableCell>
                         <TableCell width="50%" align="right" style={{padding: "1%"}}>
                             <Typography variant="body1" style={{verticalAlign: "middle"}}>
-                                EUR 95,-
+                                EUR ...,-
                             </Typography>
                         </TableCell>
                     </TableRow>
