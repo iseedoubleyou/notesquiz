@@ -33,7 +33,7 @@ const KontaktUndAnfahrt = () => {
           <Typography variant="body1">
             Klavierschule Volksdorf<br/>
             Katharina Wilhelmi<br/>
-            Volksdorfer Damm 62<br/>
+            Volksdorfer Damm 60<br/>
             22359 Hamburg<br/>
             <Link href={href1}>{part1+dot1+part2+at1+part3+dot2+part4}</Link><br/>
             +49 40 6453 98 62
