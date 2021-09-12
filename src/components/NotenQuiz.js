@@ -53,9 +53,9 @@ export default function NotesQuiz() {
     const [instructionText, setInstructionText] = React.useState(<br />);
     const [wrongKey, setWrongKey] = React.useState(0);
     const [showSettings, setShowSettings] = React.useState(false);
-    const [clefsSelected, setClefsSelected] = React.useState(["bass", "violin"]);
-    const [accidentalsSelected, setAccidentalsSelected] = React.useState(notesAccidentalReservoir.map(a => a[0]));
-    const [octavesSelected, setOctavesSelected] = React.useState(notesOctaveReservoir);
+    const [clefsSelected, setClefsSelected] = React.useState(["violin"]);
+    const [accidentalsSelected, setAccidentalsSelected] = React.useState(notesAccidentalReservoir.map(a => a[0]).filter(a => a == "unsigned"));
+    const [octavesSelected, setOctavesSelected] = React.useState(1);
     const [errorMessage, setErrorMessage] = React.useState("");
 
     const theme = useTheme();
@@ -169,6 +169,13 @@ export default function NotesQuiz() {
             <Grid item xs={isVeryNarrow? "0" : "2"}/>
             <Grid item xs={isVeryNarrow? "12" : "8"}>
                 <Grid container>
+                    <Grid item xs="12" align="right">
+                        <p/>
+                        <SettingsIcon onClick={registerSettingsClick}/>
+                    </Grid>
+                    <Grid item xs="12" align="left">
+                        {showSettings ? <QuizSettings errorMessage={errorMessage} clefs={clefsSelected} octaves={octavesSelected} accidentals={accidentalsSelected} settingsChangeHandler={registerSettingsChange} /> : ""}
+                    </Grid>                       
                     <Grid item xs="12">
                         <NotesScore definedNote={noteAndKey[0]} />
                     </Grid>
@@ -220,13 +227,6 @@ export default function NotesQuiz() {
                             </Table>
                         </TableContainer>
                     </Grid>
-                    <Grid item xs="12" align="right">
-                        <p/>
-                        <SettingsIcon onClick={registerSettingsClick}/>
-                    </Grid>
-                    <Grid item xs="12" align="left">
-                        {showSettings ? <QuizSettings errorMessage={errorMessage} clefs={clefsSelected} octaves={octavesSelected} accidentals={accidentalsSelected} settingsChangeHandler={registerSettingsChange} /> : ""}
-                    </Grid>                      
                 </Grid>
             </Grid>
             <Grid item xs={isVeryNarrow? "0" : "2"}/>
