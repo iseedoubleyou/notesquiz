@@ -43,19 +43,25 @@ export default function NotesQuiz() {
         {keyboardKey: 12, notes: [{noteBase: "b", noteAccidental: "unsigned"}, {noteBase: "c", noteAccidental: "flat"}]}
     ]
 
+    /*
     let initialNoteState = notesCollection[Math.floor(Math.random() * notesCollection.length)];
     let initialKeyState = mapKeyNotes.filter(m => m.notes.some(n => n.noteBase === initialNoteState.noteBase && n.noteAccidental === initialNoteState.noteAccidental))[0].keyboardKey;
+    */
+    let initialClefs = ["violin"];
+    let initialAccidentals = notesAccidentalReservoir.map(a => a[0]).filter(a => a == "unsigned");
+    let initialOctaves = [1];
+    let initialNoteAndKeyState = selectInitialNote({clefs: initialClefs, accidentals: initialAccidentals, octaves: initialOctaves});
 
-    const [noteAndKey, setNoteAndKey] = React.useState([initialNoteState, initialKeyState]);
+    const [noteAndKey, setNoteAndKey] = React.useState(initialNoteAndKeyState);
     const [counter0, setCounter0] = React.useState(0);
     const [counter1, setCounter1] = React.useState(0);
     const [evaluate, setEvaluate] = React.useState(true);
     const [instructionText, setInstructionText] = React.useState(<br />);
     const [wrongKey, setWrongKey] = React.useState(0);
     const [showSettings, setShowSettings] = React.useState(false);
-    const [clefsSelected, setClefsSelected] = React.useState(["violin"]);
-    const [accidentalsSelected, setAccidentalsSelected] = React.useState(notesAccidentalReservoir.map(a => a[0]).filter(a => a == "unsigned"));
-    const [octavesSelected, setOctavesSelected] = React.useState(1);
+    const [clefsSelected, setClefsSelected] = React.useState(initialClefs);
+    const [accidentalsSelected, setAccidentalsSelected] = React.useState(initialAccidentals);
+    const [octavesSelected, setOctavesSelected] = React.useState(initialOctaves);
     const [errorMessage, setErrorMessage] = React.useState("");
 
     const theme = useTheme();
@@ -137,6 +143,13 @@ export default function NotesQuiz() {
         return([].concat(clefs).some(c => c === noteAndKey[0].noteClef) && [].concat(octaves).some(o => o === noteAndKey[0].noteOctave) && [].concat(accidentals).some(a => a === noteAndKey[0].noteAccidental));
     }
 
+    function selectInitialNote({clefs, octaves , accidentals} = {}) {
+        let validNotesCollection = notesCollection.filter(n => [].concat(clefs).some(c => c === n.noteClef) && [].concat(octaves).some(o => o === n.noteOctave) && [].concat(accidentals).some(a => a === n.noteAccidental));
+        let nextNoteState = validNotesCollection[Math.floor(Math.random() * validNotesCollection.length)];
+        let nextKeyState = mapKeyNotes.filter(m => m.notes.some(n => n.noteBase === nextNoteState.noteBase && n.noteAccidental === nextNoteState.noteAccidental))[0].keyboardKey;
+        return [nextNoteState, nextKeyState];
+    }
+        
     function selectNewNote({clefs = clefsSelected, octaves = octavesSelected, accidentals = accidentalsSelected} = {}) {
         let validNotesCollection = notesCollection.filter(n => [].concat(clefs).some(c => c === n.noteClef) && [].concat(octaves).some(o => o === n.noteOctave) && [].concat(accidentals).some(a => a === n.noteAccidental));
         let nextNoteState = validNotesCollection[Math.floor(Math.random() * validNotesCollection.length)];
