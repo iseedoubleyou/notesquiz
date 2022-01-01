@@ -51,6 +51,27 @@ img, video {
   max-width: 100%; 
   height: auto; 
 }
+
+.fixed-aspect-padder {
+  height: 0;
+  /* last padding dimension is (100 * height / width) of item to be scaled */
+  padding: 0 0 56.25%;
+  position: relative;
+  /* only need next 2 rules if other rulesets change these */
+  margin: 0;
+  width: auto;
+}
+.whatever-needs-the-fixed-aspect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* for demo */
+  border: 0;
+  background: white;
+}
+
       
 figure {
   margin-left: 0; 
