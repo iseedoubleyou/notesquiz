@@ -1,0 +1,29 @@
+/* ================================
+
+   style.css  
+
+   zentrales Stylesheet
+   wird im HTML per <link> eingebunden 
+   
+   Stand k25/uebungswebsite/fertig/ 
+
+   ================================ */
+
+@import url("basis.css"); 
+
+@import url("layout.css"); 
+
+@import url("layout-modern.css"); 
+
+@import url("navi-responsiv.css"); 
+
+@import url("navi-meta.css"); 
+
+@import url("content.css"); 
+
+@import url("formulare.css"); 
+
+@import url("print.css"); 
+
+
+/* eof */
